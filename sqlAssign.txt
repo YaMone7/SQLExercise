@@ -1,0 +1,121 @@
+create table Team (team_id varchar(10)primary key,
+			 name varchar(30), 
+			foundeddate date);
+
+create table Player(player_id varchar(20),
+			name varchar(30),
+			jersyno int,
+			age int,
+			salary decimal,
+			team_id varchar(10) ,
+			foreign key(team_id)references Team(team_id),
+			height decimal);
+
+
+ select * from Team;
++---------+-----------+-------------+
+| team_id | name      | foundeddate |
++---------+-----------+-------------+
+| t1      | Arsenal   | 2005-12-20  |
+| t2      | Liverpool | 2007-09-20  |
+| t3      | Manchster | 2005-03-20  |
+| t4      | ManU      | 2001-08-20  |
+| t5      | Barcelona | 2006-01-20  |
++---------+-----------+-------------+
+
+
+
+ select * from Player;
++-----------+--------------+---------+------+---------+---------+--------+
+| player_id | name         | jersyno | age  | salary  | team_id | height |
++-----------+--------------+---------+------+---------+---------+--------+
+| p1        | Lionel Messi |      24 |   35 | 1000000 | t1      |    120 |
+| p3        | Neymar       |       7 |   30 | 2000000 | t3      |    130 |
+| p4        | Oscar        |      25 |   33 | 2500000 | t4      |    110 |
+| p2        | David Luiz   |       5 |   25 | 2200000 | t2      |    130 |
+| p5        | Pedro        |      15 |   27 | 2700000 | t5      |    130 |
++-----------+--------------+---------+------+---------+---------+--------+
+
+
+
+ select * from Player where team_id="t1";
++-----------+--------------+---------+------+---------+---------+--------+
+| player_id | name         | jersyno | age  | salary  | team_id | height |
++-----------+--------------+---------+------+---------+---------+--------+
+| p1        | Lionel Messi |      24 |   35 | 1000000 | t1      |    120 |
++-----------+--------------+---------+------+---------+---------+--------+
+
+
+
+ select * from Player where team_id="t5";
++-----------+-------+---------+------+---------+---------+--------+
+| player_id | name  | jersyno | age  | salary  | team_id | height |
++-----------+-------+---------+------+---------+---------+--------+
+| p5        | Pedro |      15 |   27 | 2700000 | t5      |    130 |
++-----------+-------+---------+------+---------+---------+--------+
+
+
+
+ select name from Player where salary>500000;
++--------------+
+| name         |
++--------------+
+| Lionel Messi |
+| Neymar       |
+| Oscar        |
+| David Luiz   |
+| Pedro        |
++--------------+
+
+select team.*, SUM(salary) from Team,Player where Team.team_id=Player.team_id And Team.team_id='t1';
++---------+---------+-------------+-------------+
+| team_id | name    | foundeddate | SUM(salary) |
++---------+---------+-------------+-------------+
+| t1      | Arsenal | 2005-12-20  |     1000000 |
++---------+---------+-------------+-------------+
+
+
+
+ select * from Player where height<120;
++-----------+-------+---------+------+---------+---------+--------+
+| player_id | name  | jersyno | age  | salary  | team_id | height |
++-----------+-------+---------+------+---------+---------+--------+
+| p4        | Oscar |      25 |   33 | 2500000 | t4      |    110 |
++-----------+-------+---------+------+---------+---------+--------+
+
+
+
+ select team.*, AVG(salary) from Team,Player where Team.team_id=Player.team_id And Team.team_id='t2';
++---------+-----------+-------------+--------------+
+| team_id | name      | foundeddate | AVG(salary)  |
++---------+-----------+-------------+--------------+
+| t2      | Liverpool | 2007-09-20  | 2200000.0000 |
++---------+-----------+-------------+--------------+
+
+
+
+
+ select name, MIN(salary) from Player;
++--------------+-------------+
+| name         | MIN(salary) |
++--------------+-------------+
+| Lionel Messi |     1000000 |
++--------------+-------------+
+
+
+
+select name,salary from Player where salary in(select max(salary) from Player);
++-------+---------+
+| name  | salary  |
++-------+---------+
+| Pedro | 2700000 |
++-------+---------+
+
+
+
+select * from Player where age>30 and salary>2000000;
++-----------+-------+---------+------+---------+---------+--------+
+| player_id | name  | jersyno | age  | salary  | team_id | height |
++-----------+-------+---------+------+---------+---------+--------+
+| p4        | Oscar |      25 |   33 | 2500000 | t4      |    110 |
++-----------+-------+---------+------+---------+---------+--------+
