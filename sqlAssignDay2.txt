@@ -1,0 +1,105 @@
+ select * from Menu;
++---------+-----------+-------------+
+| menu_id | menu_name | description |
++---------+-----------+-------------+
+| m1      | Pizza     | Seafood     |
+| m2      | Bugger    | Chicken     |
+| m3      | Pasta     | Chess       |
+| m4      | Coffee    | Americano   |
+| m5      | Wine      | Grape       |
++---------+-----------+-------------+
+
+
+select * from Food;
++---------+-----------+-------+---------+
+| food_id | food_name | price | menu_id |
++---------+-----------+-------+---------+
+| f1      | Pasta     |  2000 | m3      |
+| f2      | Cake      |  1500 | m1      |
+| f3      | Noddle    |  2500 | m2      |
+| f4      | Pizza     |  5000 | m5      |
+| f5      | Bugger    |  2000 | m4      |
++---------+-----------+-------+---------+
+
+
+ select * from OrderTable;
++----------+------------+------+---------+-------+------------+
+| order_id | sale_date  | qty  | food_id | price | totalprice |
++----------+------------+------+---------+-------+------------+
+| o1       | 2012-07-20 |    5 | f1      |  2000 |      10000 |
+| o2       | 2015-07-20 |    2 | f2      |  1500 |       3000 |
+| o3       | 2017-07-20 |    3 | f3      |  2500 |       7500 |
+| o4       | 2019-06-20 |    1 | f4      |  4500 |       4500 |
+| o5       | 2020-05-20 |    1 | f5      |  5000 |       5000 |
+| o6       | 2025-06-20 |    2 | f1      |  5500 |      11000 |
++----------+------------+------+---------+-------+------------+
+
+
+ select sale_date,SUM(totalprice) as talprice  from OrderTable group by sale_date;
++------------+----------+
+| sale_date  | talprice |
++------------+----------+
+| 2012-07-20 |    10000 |
+| 2015-07-20 |     3000 |
+| 2017-07-20 |     7500 |
+| 2019-06-20 |     4500 |
+| 2020-05-20 |     5000 |
++------------+----------+
+
+
+ select food_name,MAX(totalprice) from OrderTable,Food where OrderTable.food_id=Food.food_id group by Food.food_id;
++-----------+-----------------+
+| food_name | MAX(totalprice) |
++-----------+-----------------+
+| Pasta     |           11000 |
+| Cake      |            3000 |
+| Noddle    |            7500 |
+| Pizza     |            4500 |
+| Bugger    |            5000 |
++-----------+-----------------+
+
+ select food_name,MIN(totalprice) from OrderTable,Food where OrderTable.food_id=Food.food_id group by Food.food_id;
++-----------+-----------------+
+| food_name | MIN(totalprice) |
++-----------+-----------------+
+| Pasta     |           10000 |
+| Cake      |            3000 |
+| Noddle    |            7500 |
+| Pizza     |            4500 |
+| Bugger    |            5000 |
++-----------+-----------------+
+
+
+ select SUM(totalprice) from OrderTable where sale_date between '2012-07-20' and '2015-07-20';
++-----------------+
+| SUM(totalprice) |
++-----------------+
+|           13000 |
++-----------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
